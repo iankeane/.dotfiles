@@ -15,10 +15,7 @@ if [[ $- != *i* ]] ; then
 fi
 
 
-# Put your fun stuff here.
-
-# Set vi editing mode
-set -o vi
+# ALIASES
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -26,5 +23,14 @@ alias ...='cd ../..'
 alias tree3='tree -d -L 3'
 alias tree4='tree -d -L 4'
 
-alias mnt='mount /dev/sdb1 /mnt/tmp'
-eval $(thefuck --alias)
+alias mnt='sudo mount /dev/sdb1 /mnt/tmp'
+alias umnt='sudo umount /mnt/tmp'
+
+alias fuck='sudo $(history -p \!\!)'
+
+alias calendar='vim -c :Calendar -c :colo\ desert'
+alias calclock='vim -c :Calendar\ -view=clock -c :colo\ desert'
+
+alias sched='column -s, -t < ~/documents/notes/schedule.csv'
+# Set vi editing mode
+set -o vi

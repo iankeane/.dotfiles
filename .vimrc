@@ -1,12 +1,27 @@
-"colorscheme {{{
-    colorscheme zenburn
-"    }}}
-
 "pathogen stuff {{{
+    "clone plugins to .vim/bundle
     filetype off "temporarily turn off filetype options
     call pathogen#infect() "load pathogen
     filetype plugin indent on "load filetype-specific indent and plugin files
 "}}}
+
+"appearance {{{
+    colorscheme zenburn
+    syntax on "enable syntax
+    set encoding=utf-8 "keep utf-8 encoding
+    set scrolloff=3 "keep at least 3 lines above and below cursor
+    set showmode "something something buffers
+    set showcmd "show command in bottom bar
+    set wildmenu "visual autocomplete for command menu
+    set wildmode=list:longest "show all completions on tab
+    set laststatus=2 "last window will always have statusline
+    set showmatch "highlight matching [{()}]
+    set cursorline "highlight current line
+"    }}}
+
+"movement {{{
+    " map alt-j and k to move text lines vertically, maintaining indent
+" }}}
 
 "folding {{{
     set foldenable "enable folding
@@ -15,25 +30,15 @@
     set modelines=1 "check final line of file for modeline
 "}}}
 
+"behavior {{{
     set nocompatible "turn off stupid vi compatability nonsense
-    syntax on "enable syntax
-    set encoding=utf-8 "keep utf-8 encoding
-    set scrolloff=3 "keep at least 3 lines above and below cursor
-    set showmode "something something buffers
-    set showcmd "show command in bottom bar
     set hidden "hide buffer when opening new file
-    set wildmenu "visual autocomplete for command menu
-    set wildmode=list:longest "show all completions on tab
     set visualbell "use visual bell instead of beeping
-    set cursorline "highlight current line
     set ttyfast "improves smoothness and drawing
     set backspace=indent,eol,start "always allow backspacing
-    set laststatus=2 "last window will always have statusline
     set undofile "make .un file for persistent undo
     set relativenumber "make numbers relative to current line
-    set showmatch "highlight matching [{()}]
     set lazyredraw "redraw only when necessary
-    set autoindent "auto indentation
 "}}} 
 
 "searching {{{
@@ -55,6 +60,7 @@
     set shiftround "always indent/outdent to the nearest tabstop
     "make search terms more visible
     highlight Visual ctermbg=DarkGreen ctermfg=Black
+    set autoindent "auto indentation
 "}}}
 
 "ruler settings {{{
@@ -67,6 +73,18 @@
     set fo=
     set fo=t
 "   set colorcolumn=85
+"}}}
+
+"leaders {{{
+    :let mapleader = ","
+    "clear search highlighting with leader-space
+    nnoremap <leader><space> :noh<cr>
+    "underline with line of the same length
+    nnoremap <leader>- yypv$r-
+    "insert date on current line
+    nnoremap <leader>d k :r !date <cr>
+    "open NERDTree
+    map <leader>n :NERDTreeToggle<cr>
 "}}}
 
 "invisible characters {{{
@@ -84,6 +102,9 @@
     inoremap <down> <nop>
     inoremap <left> <nop>
     inoremap <right> <nop>
+    "disable h and l
+    nnoremap h <nop>
+    nnoremap l <nop>
     "make j and k move by screen line, not file line
     nnoremap j gj
     nnoremap k gk
@@ -109,12 +130,30 @@
 "file specific {{{
     "in markdown files, when writing add two spaces to each line to fix spacing in compiled version
     au BufWritePost *.md silent! %s/[^ ]\zs$/\1  /
+    "bold something in a markdown file
+    :au FileType markdown nmap <leader>b i**<esc>ea**<esc>b
 "}}}
 
-"leaders {{{
-    :let mapleader = ","
-    "clear search highlighting with leader-space
-    nnoremap <leader><space> :noh<cr>
+"plugin modification {{{
+    " CtrlP
+    "''''''
+    " set binding
+    let g:ctrlp_map = '<c-p>'
+    let g:ctrlp_cmd = 'CtrlP'
+    " start from current dir if not specified
+    let g:ctrlp_working_path_mode = 'ra'
+    " ignore obnoxious files
+    set wildignore+=*/tmp/*,*.un~,*.swp,*.bak
+    " ignore files in .gitignore
+     let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+     " EasyAlign
+     " '''''''''
+     "" Start interactive EasyAlign in visual mode (e.g. vipga)
+     xmap ga <Plug>(EasyAlign)
+     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+     nmap ga <Plug>(EasyAlign)
+
 "}}}
 
+"folding options, this must be last in file
 " vim:foldmethod=marker:foldlevel=0
